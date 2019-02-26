@@ -40,7 +40,7 @@ router.post('/', bodyParser.json(), (req, res) => {
                 else{
                     post.comments.push(comment);
                     post.save();
-                    res.send(post);
+                    res.send(comment);
                 }
             });
         }       
