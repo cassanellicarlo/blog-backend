@@ -1,30 +1,26 @@
 const   express         = require("express"),
-        User            = require("../models/user")
+        User            = require("../models/user"),
+        jwt             = require("express-jwt"),
+        jwtconfig       = require("../config/jwt")
+        middleware      = require("../middleware");
 
 const router = express.Router();
+const auth = jwt( jwtconfig );
 
 // Get user profile
-router.get('/', (req, res) => {
+router.get('/', auth, middleware.isLoggedIn, (req, res) => {
     console.log("Get user details");
-    const id = req.payload._id;
-    
-    if (!id) {
-        res.status(401).json({
-          "message" : "UnauthorizedError: private profile"
-        });
-    }
+        
+    const id = req.payload._id; 
 
-    else{
-        User.findById(id, (err,user) => {
-            if(err){
-                console.log(err);
-            }
-            else{
-                res.send(user);
-            }       
-        });
-    }
-    
+    User.findById(id, (err,user) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.send(user);
+        }       
+    });
 
 });
 
