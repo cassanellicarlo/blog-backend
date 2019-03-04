@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const config = {
     app: {
-        port: process.env.PORT || 8080
+        port: process.env.PORT || 3000
     },
     db: {
         user: process.env.DB_USER,
